@@ -1,4 +1,26 @@
 import streamlit as st
+import streamlit as st
+
+# === 密码锁功能 ===
+if "password_correct" not in st.session_state:
+    st.session_state.password_correct = False
+
+if not st.session_state.password_correct:
+    st.title("🔒 AI 课程复习教练")
+    pwd = st.text_input("请输入访问密码：", type="password")
+    if st.button("进入"):
+        # 从秘密文件里读取密码进行比对
+        if pwd == st.secrets["PASSWORD"]:
+            st.session_state.password_correct = True
+            st.rerun() # 密码正确，重新加载页面进入应用
+        else:
+            st.error("密码错误，请重试。")
+    st.stop() # 密码不对，下面的代码全部不执行
+
+# === 下面接你原来 app.py 的代码 ===
+# st.set_page_config(...)
+# st.title(...)
+# ...
 from openai import OpenAI
 import json
 
